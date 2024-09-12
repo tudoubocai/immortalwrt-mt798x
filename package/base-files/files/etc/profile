@@ -16,7 +16,7 @@ export ENV=/etc/shinit
 
 case "$TERM" in
 	xterm*|rxvt*)
-		export PS1='\[\e]0;\u@\h: \w\a\]'$PS1
+		export PS1='\[\e[31;1m\]\u@\[\e[32;1m\]\h:\w\$\[\e[012;00m\]'
 		;;
 esac
 
@@ -35,7 +35,11 @@ alias ls='ls --color=auto'
 
 [ -n "$FAILSAFE" ] || {
 	for FILE in /etc/profile.d/*.sh; do
-		[ -e "$FILE" ] && . "$FILE"
+                if [ "$FILE" == "/etc/profile.d/sysinfo.sh" ]; then
+                 [ "$(which bash)" ] && env -i bash "$FILE"
+                else
+                [ -e "$FILE" ] && . "$FILE"
+                fi
 	done
 	unset FILE
 }
