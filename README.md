@@ -1,5 +1,32 @@
 <img src="https://avatars.githubusercontent.com/u/53193414?s=200&v=4" alt="logo" width="200" height="200" align="right">
 
+#源码来自237的padavanonly/immortalwrt-mt798x，237的源码来自hanwckf/immortalwrt-mt798x<br/>
+
+可能存在的bug<br/>
+1、源自padavanonly/immortalwrt-mt798x的问题，也可能是我的网络环境导致，选择luci-app-store和luci-app-quickstart，编译会报错<br/>
+2、MacBook Air M1，存在5G Wi-Fi偶尔连接不上的情况，更改频道可解决。2.4G Wi-Fi正常<br/>
+3、机顶盒长时间看电视时，存在pppoe掉线的可能性，且自动重拨不成功，需重启路由器，可能是个例。（此bug在论坛网友编译的版本上发现，我这个没有测试，已经改用爱快拨号，openwrt做旁路和ap)<br/>
+4、修改LAN IP，请使用“强制应用”<br/>
+
+修改内容<br/>
+1、ip为192.168.3.222<br/>
+2、ssh欢迎页显示硬件信息<br/>
+3、闭源驱动，保留硬件加速、限速<br/>
+4、修复wifi开启80211v漫游引导阈值后，满屏日志的错误（感谢恩山"电磁炮轰八方"提供解决方案）<br/>
+5、我拿来做旁路，dns默认有192.168.3.11，请自行删除<br/>
+6、2.4G Wi-Fi ID为immortalwrt-2.4g。5G Wi-Fi ID为pengb，无密码<br/>
+7、root账户无密码<br/>
+
+注意事项<br/>
+1、修改LAN IP，请使用“强制应用”<br/>
+2、启用漫游，需填入”80211v漫游引导目标bssid“，除自己外，所有ap的Mac地址都要添加<br/>
+3、切换位置不理想，修改“80211v漫游引导阈值”来调整<br/>
+4、⚠️注意，开启/调整80211kvr的任何与漫游相关的参数，需要重启所有ap才能生效。<br/>
+5、不要使用root用户编译<br/>
+6、开启全局代理再进行编译，如./scripts/feeds update -a命令如报错，请检查代理，并多试几次<br/>
+
+
+
 # Project ImmortalWrt
 
 ImmortalWrt is a fork of [OpenWrt](https://openwrt.org), with more packages ported, more devices supported, better performance, and special optimizations for mainland China users.<br/>
@@ -68,6 +95,18 @@ To build your own firmware you need a GNU/Linux, BSD or MacOSX system (case sens
      
   7. Run `make menuconfig` to select your preferred configuration for the toolchain, target system & firmware packages.
   8. Run `make -j$(nproc)` to build your firmware. This will download all sources, build the cross-compile toolchain and then cross-compile the GNU/Linux kernel & all chosen applications for your target system.
+
+二次编译：<br/>
+```
+cd immortalwrt-mt798x
+rm -r tmp
+git pull
+./scripts/feeds update -a
+./scripts/feeds install -a
+make download -j8
+make V=s -j$(nproc)
+```
+
 
   ### Related Repositories
   The main repository uses multiple sub-repositories to manage packages of different categories. All packages are installed via the ImmortalWrt package manager called opkg. If you're looking to develop the web interface or port packages to ImmortalWrt, please find the fitting repository below.
