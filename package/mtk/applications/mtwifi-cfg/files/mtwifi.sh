@@ -23,14 +23,14 @@ detect_mtwifi() {
 					ssid="ImmortalWrt-2.4G"
 					dbdc_main="1"
 					txpower="100"
-					channel="auto"
+					channel="10"
 				else
 					band="5g"
 					hwmode="11a"
 					htmode="HE160"
 					htbsscoex="0"
-					ssid="ImmortalWrt-5G"
-					channel="36"
+					ssid="pengb"
+					channel="60"
 					txpower="100"
 					dbdc_main="0"
 				fi
